@@ -1,8 +1,13 @@
 (ns cerebro.core
-  (:require [cljs.nodejs :as nodejs]))
+  (:require [cljs.nodejs :as node]
+            [cerebro.mutations-reader :as reader]))
 
-(nodejs/enable-util-print!)
 
-(println "Hello, world!")
 
-(set! (.-exports js/module) Cerebro)
+(node/enable-util-print!)
+
+(println (reader/answer))
+
+;; (println reader)
+
+;; (set! (.-exports js/module) Cerebro)

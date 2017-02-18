@@ -57,6 +57,16 @@ $ lein deps && npm install -g mocha
 $ lein cljsbuild once
 ```
 
+To avoid having to start the JVM each time 
+
+```
+$ lein cljsbuild auto
+```
+
+### Developing
+
+`SPC m s i` connects to the CIDER REPL
+
 ### Test
 
 ```
