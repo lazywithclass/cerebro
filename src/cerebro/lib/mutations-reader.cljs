@@ -1,12 +1,10 @@
 (ns cerebro.mutations-reader
   (:require [cljs.nodejs :as node]))
+(def fs (node/require "fs"))
 
-
-(def fs (js/require "fs"))
-(.readdirSync fs "/home/lazywithclass")
-;; (.readdirSync fs node/__dirname)
-
-
+;; (.readdirSync fs "./src/cerebro/mutations")
+;; why is * required?
+(.readdirSync fs (js* "__dirname"))
 
 
 (defn answer
