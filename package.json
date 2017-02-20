@@ -1,0 +1,28 @@
+{
+  "name": "cerebro",
+  "version": "0.0.1",
+  "description": "A mutation testing library for JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lazywithclass/cerebro.git"
+  },
+  "keywords": [
+    "mutation",
+    "testing",
+    "test"
+  ],
+  "author": "me@lazywithclass.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lazywithclass/cerebro/issues"
+  },
+  "homepage": "https://github.com/lazywithclass/cerebro#readme",
+  "dependencies": {
+    "acorn": "^4.0.11",
+    "esrecurse": "^4.1.0"
+  }
+}
