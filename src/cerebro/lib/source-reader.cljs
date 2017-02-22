@@ -3,7 +3,6 @@
             [clojure.string :as str]
             [cerebro.lib.utils :as utils]))
 (def fs (node/require "fs"))
-(def esrecurse (node/require "esrecurse"))
 (def acorn (node/require "acorn"))
 
 
@@ -32,11 +31,11 @@
 
   (map
    #(hash-map (first (keys %)) (.parse acorn (first(vals %))))
-   path-string)
-  )
+   path-string))
 
 ;; sample usage
 ;; (utils/stringify (create-ast (read-in-memory "./test/example-project/lib")))
+
 
 (set! (.-exports js/module) (hash-map
                              :create-ast create-ast
