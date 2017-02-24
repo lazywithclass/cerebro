@@ -7,11 +7,11 @@
 (.readdirSync fs (js* "__dirname"))
 
 
-(defn answer
-  ""
-  []
-  42)
+;; (defn answer
+;;   ""
+;;   []
+;;   42)
 
-(answer)
+;; (answer)
 
-(set! (.-exports js/module) answer)
+;; (set! (.-exports js/module) answer)
