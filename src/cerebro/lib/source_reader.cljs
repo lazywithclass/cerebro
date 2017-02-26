@@ -13,9 +13,9 @@
   (map
    (fn [filename]
      (let [filepath (str path "/" filename)]
-     (if (.isDirectory (.statSync fs filepath))
-       (walk filepath)
-       filepath)))
+       (if (.isDirectory (.statSync fs filepath))
+         (walk filepath)
+         filepath)))
    (.readdirSync fs path)))
 
 (defn read
