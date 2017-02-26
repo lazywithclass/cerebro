@@ -5,8 +5,3 @@
   "stringifies using JSON.stringify"
   [object]
   (.stringify js/JSON (clj->js object)))
-
-
-(set! (.-exports js/module) (hash-map
-                             :stringify stringify
-                             ))
