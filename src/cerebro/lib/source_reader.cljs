@@ -6,6 +6,9 @@
 (def fs (node/require "fs"))
 (def acorn (node/require "acorn"))
 
+;; TODO this should read just the first time from disk
+;;      and transform into AST just once
+;;      after that return the AST
 
 (defn walk
   "walks recursively down a folder structure, returning file names"
@@ -25,6 +28,10 @@
    #(hash-map % (.readFileSync fs % "utf8"))
    (flatten (walk path))))
 
+;; TODO what about return a Clojure map instead of an AST
+;;      and then put the filename as a property?
+;;      so I dont have to deal with a map path->AST
+;;      but just with map
 (defn to-ast
   "given a map with path and string representation
   returns a map between path and AST representation"

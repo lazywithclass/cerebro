@@ -4,4 +4,4 @@
 (defn stringify
   "stringifies using JSON.stringify"
   [object]
-  (.stringify js/JSON (clj->js object)))
+  (.stringify js/JSON object))
