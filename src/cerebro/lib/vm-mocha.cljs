@@ -59,19 +59,11 @@ mocha.run()
 
 
 ;; TODO
-;; mockRequire('./source', eval(mutant));
+;; mockRequire('./source', eval(mutant))
 ;; global.module = module;
 ;; global.require = require;
 ;; global.path = path;
 ;; global.__dirname = __dirname;
-;;   var Mocha = require('mocha');
-;;   var mocha = new Mocha({ reporter: 'reporter' });
-;;   var mochaContext = {};
-;;   mocha.suite.emit('pre-require', mochaContext, null, mocha);
-;;   Object.keys(mochaContext).forEach(function(key) {
-;;     global[key] = mochaContext[key];
-;;   });
-;;   global.mocha = mocha;
 
 ;; (ast-to-string
 ;;  (true-to-false/loop-nodes
