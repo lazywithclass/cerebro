@@ -3,6 +3,8 @@
             [clojure.string :as str]
             [cerebro.lib.utils :as utils]))
 
+;; TODO USE A deftype here instead of maps or array of maps
+
 (def fs (node/require "fs"))
 (def acorn (node/require "acorn"))
 
