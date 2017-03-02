@@ -25,9 +25,9 @@
   pre-required event, mocha-context is then enriched with
   all required functions, like it before after describe etc"
   []
-  (def Mocha (node/require "mocha"))
   (let [mocha (Mocha. {:reporter "reporter"})
         mocha-context #js {:console js/console
+                           :module js/module
                            :require node/require
                            :mocha mocha}]
     (.emit (.-suite mocha) "pre-require" mocha-context nil mocha)
@@ -48,14 +48,14 @@
   [mocha-results]
   (not (= (.-failures mocha-results) 0)))
 
-(mutant-killed? (run-in-context "
-let assert = require('assert')
-let sum = (a, b) => a + b
-it('sums two numbers', () => {
-  assert.equal(sum(1, 2), 3)
-})
-mocha.run()
-" (create-context)))
+;; (mutant-killed? (run-in-context "
+;; let assert = require('assert')
+;; let sum = (a, b) => a + b
+;; it('sums two numbers', () => {
+;;   assert.equal(sum(1, 2), 3)
+;; })
+;; mocha.run()
+;; " (create-context)))
 
 
 ;; TODO
