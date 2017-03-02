@@ -1,5 +1,7 @@
 ## Cerebro
 
+> “Welcome, Professor.” ―Cerebro
+
 A mutation testing library for JavaScript.
 
 To move from code representation to AST representation and vice versa Cerebro will use:
