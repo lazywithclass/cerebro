@@ -20,7 +20,6 @@
               (vm-mocha/ast-to-string mutated)
               (vm-mocha/ast-to-string test)
               "mocha.run()")]
-    (prn code)
     (vm-mocha/mutant-killed? (vm-mocha/run-in-context code (vm-mocha/create-context)))))
 
 ;; run tests
