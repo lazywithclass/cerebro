@@ -27,7 +27,6 @@
     (.visit esrecurse ast #js { :Literal mutate })
     ast))
 
-;; (loop-nodes
-;;  (first (reader/to-ast
-;;      (reader/read "./test/example-project/lib"))))
-
+;; (utils/stringify (loop-nodes
+;;                   (first (reader/to-ast
+;;                           (reader/read "./test/example-project/lib")))))
