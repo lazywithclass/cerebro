@@ -5,6 +5,8 @@
 
 (def esrecurse (node/require "esrecurse"))
 
+;; TODO make use of reader/Candidate
+
 ;; TODO it's important that this does not mutate in place
 ;;      so I could continue mutating in parallel
 

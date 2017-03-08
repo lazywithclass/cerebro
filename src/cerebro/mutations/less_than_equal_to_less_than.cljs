@@ -1,5 +1,5 @@
 (ns cerebro.mutations.less-than-equal-to-less-than
-  (:require [cljs.nodejs :as node] ;; qualify import?
+  (:require [cljs.nodejs :as node] ;; TODO qualify import
             [cerebro.lib.source-reader :as reader]
             [cerebro.lib.utils :as utils]))
 
@@ -18,12 +18,10 @@
 (defn loop-nodes
   "applies a mutation to the ASTs,
   returns the mutated, or non mutated, ASTs"
-  [path-ast]
-  (let [ast (first (vals path-ast))]
-    (.visit esrecurse ast #js {:BinaryExpression mutate})
-    ast))
+  [candidate]
+  (.visit esrecurse candidate.code #js {:BinaryExpression mutate})
+  candidate)
 
-(utils/stringify (loop-nodes
-                  (first (reader/to-ast
-                          (reader/read "./test/example-project/lib")))))
-
+;; (loop-nodes
+;;  (first (reader/to-ast
+;;          (reader/read "./test/example-project/lib"))))
