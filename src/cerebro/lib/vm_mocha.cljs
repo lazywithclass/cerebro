@@ -2,7 +2,9 @@
   (:require [cljs.nodejs :as node]
             [cerebro.lib.utils :as utils]
             [cerebro.lib.source-reader :as reader]
-            [cerebro.mutations.true-to-false :as true-to-false]))
+            [cerebro.mutations.true-to-false :as true-to-false]
+            [cerebro.mutations.less-than-equal-to-less-than
+             :as less-than-equal-to-less-than]))
 
 (def escodegen (node/require "escodegen"))
 (def vm (node/require "vm"))
@@ -13,6 +15,7 @@
 ;;      tested, not from this project
 (def Mocha (node/require "mocha"))
 
+;; TODO move this somewhere else
 (defn ast-to-string
   "takes an ast and transforms it into a string"
   [ast]
@@ -37,7 +40,6 @@
   "runs the passed code in a custom context
   to emulate the run of the suite"
   [code context]
-  ;; omg my eyes
   (let [Script (.-Script js/vm)
         script (Script. code)]
     (.runInContext script context)))
@@ -48,24 +50,7 @@
   [mocha-results]
   (not (= (.-failures mocha-results) 0)))
 
-;; (mutant-killed? (run-in-context "
-;; let assert = require('assert')
-;; let sum = (a, b) => a + b
-;; it('sums two numbers', () => {
-;;   assert.equal(sum(1, 2), 3)
-;; })
-;; mocha.run()
-;; " (create-context)))
-
-
-;; TODO
-;; mockRequire('./source', eval(mutant))
-;; global.module = module;
-;; global.require = require;
-;; global.path = path;
-;; global.__dirname = __dirname;
-
 ;; (ast-to-string
-;;  (true-to-false/loop-nodes
+;;  (less-than-equal-to-less-than/loop-nodes
 ;;   (first (reader/to-ast
-;;    (reader/read "./test/example-project/lib")))))
+;;           (reader/read "./test/example-project/lib")))))
