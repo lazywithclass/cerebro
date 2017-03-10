@@ -3,3 +3,4 @@ target
 .nrepl-port
 node_modules
 .lein-repl-history
+.notes
