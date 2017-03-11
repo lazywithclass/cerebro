@@ -21,13 +21,24 @@
                                   [org.clojure/tools.nrepl "0.2.10"]]
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
 
+
   :cljsbuild {
-              :builds [{
+              :builds [{:id "dev"
                         :source-paths ["src"]
                         :compiler {
                                    :output-to "target/cerebro.js"
                                    :pretty-print true
+                                   :optimizations :advanced
+                                   :target :nodejs
+                                   }
+                        }
+                       {:id "prod"
+                        :source-paths ["src"]
+                        :compiler {
+                                   :output-to "cerebro.js"
+                                   :pretty-print false
                                    :optimizations :simple
+                                   :target :nodejs
                                    }
                         }]
               })
