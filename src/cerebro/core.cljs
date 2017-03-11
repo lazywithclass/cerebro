@@ -5,26 +5,31 @@
              less-than-equal-to-less-than]
             [cerebro.lib.utils :as utils]
             [cerebro.lib.vm-mocha :as vm-mocha]
-            [cerebro.lib.source-reader :as reader]))
+            [cerebro.lib.source-reader :as reader]
+            [cerebro.lib.ast :as ast]))
+
+(node/enable-util-print!)
 
 (defn run
   "runs the example"
   []
-  (let [test (first (reader/to-ast (reader/read "./test/example-project/test")))
+  (let [test (first (ast/string-to-ast
+                     (reader/read "./test")))
         mutated (less-than-equal-to-less-than/loop-nodes
                  (first
-                  (reader/to-ast
-                   (reader/read "./test/example-project/lib"))))
+                  (ast/string-to-ast
+                   (reader/read "./lib"))))
         code (str
-              (vm-mocha/ast-to-string mutated.code)
-              (vm-mocha/ast-to-string test.code)
-              "mocha.run()")
-        ]
+              (ast/ast-to-string mutated.code)
+              (ast/surround-with-iife (ast/ast-to-string test.code))
+              ;; TODO this should be somehow added in vm-mocha
+              "; mocha.run()")]
+    (vm-mocha/mutant-killed?
+     (vm-mocha/run-in-context code
+                              (vm-mocha/create-context))
+     ))) 
 
-
-    (vm-mocha/mutant-killed? (vm-mocha/run-in-context code (vm-mocha/create-context))))) 
-
-;; run tests
-;; TODO fails because `check` has already been declared
 (run)
 
+
+;; (set! (.-exports js/module) "oh hai"))

@@ -1,25 +1,14 @@
 (ns cerebro.lib.vm-mocha
   (:require [cljs.nodejs :as node]
             [cerebro.lib.utils :as utils]
-            [cerebro.lib.source-reader :as reader]
             [cerebro.mutations.true-to-false :as true-to-false]
             [cerebro.mutations.less-than-equal-to-less-than
              :as less-than-equal-to-less-than]))
 
-(def escodegen (node/require "escodegen"))
 (def vm (node/require "vm"))
 (def util (node/require "util"))
 
-;; TODO this only works for mocha
-;; TODO it should use mocha from the target project being
-;;      tested, not from this project
 (def Mocha (node/require "mocha"))
-
-;; TODO move this somewhere else
-(defn ast-to-string
-  "takes an ast and transforms it into a string"
-  [ast]
-  (.generate escodegen ast))
 
 (defn create-context
   "creates a context in which all required functions and
@@ -32,25 +21,23 @@
         mocha-context #js {:console js/console
                            :module js/module
                            :require node/require
-                           :mocha mocha}]
+                           :mocha mocha
+                           :vm vm}]
     (.emit (.-suite mocha) "pre-require" mocha-context nil mocha)
     (.createContext vm mocha-context)))
 
+;; TODO this could go in a generic vm ns
 (defn run-in-context
   "runs the passed code in a custom context
   to emulate the run of the suite"
   [code context]
-  (let [Script (.-Script js/vm)
+  (let [Script (.-Script vm)
         script (Script. code)]
     (.runInContext script context)))
 
+;; TODO this could go in a generic vm ns
 (defn mutant-killed?
   "returns true if the mutant was killed (tests red)
   returns false if the mutant is still alive (tests green)"
   [mocha-results]
   (not (= (.-failures mocha-results) 0)))
-
-;; (ast-to-string
-;;  (less-than-equal-to-less-than/loop-nodes
-;;   (first (reader/to-ast
-;;           (reader/read "./test/example-project/lib")))))

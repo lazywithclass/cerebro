@@ -3,4 +3,5 @@ target
 .nrepl-port
 node_modules
 .lein-repl-history
-.notes
+notes
+cerebro.js
