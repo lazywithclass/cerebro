@@ -5,6 +5,7 @@
              less-than-equal-to-less-than]
             [cerebro.lib.utils :as utils]
             [cerebro.lib.vm-mocha :as vm-mocha]
+            [cerebro.lib.vm :as vm]
             [cerebro.lib.source-reader :as reader]
             [cerebro.lib.ast :as ast]))
 
@@ -24,9 +25,9 @@
               (ast/surround-with-iife (ast/ast-to-string test.code))
               ;; TODO this should be somehow added in vm-mocha
               "; mocha.run()")]
-    (vm-mocha/mutant-killed?
-     (vm-mocha/run-in-context code
-                              (vm-mocha/create-context))
+    (vm/mutant-killed?
+     (vm/run-in-context code
+                        (vm-mocha/create-context))
      ))) 
 
 (run)
