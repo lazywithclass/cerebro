@@ -14,6 +14,7 @@
 (defn run
   "runs the example"
   []
+  ;; TODO test path and source path should be passed as arguments
   (let [test (first (ast/string-to-ast
                      (reader/read "./test")))
         mutated (less-than-equal-to-less-than/loop-nodes
@@ -23,14 +24,16 @@
         code (str
               (ast/ast-to-string mutated.code)
               (ast/surround-with-iife (ast/ast-to-string test.code))
+              (vm-mocha/produce-mutated-reporter)
               ;; TODO this should be somehow added in vm-mocha
               "; mocha.run()")]
-    (vm/mutant-killed?
-     (vm/run-in-context code
-                        (vm-mocha/create-context))
-     ))) 
 
-(run)
+
+    (vm/mutant-killed?
+     (vm/run-in-context (ast/set-paths-relative-to-project-root code)
+                        (vm-mocha/create-context))))) 
+
+(prn (run))
 
 
 ;; (set! (.-exports js/module) "oh hai"))

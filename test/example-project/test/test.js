@@ -1,5 +1,5 @@
 var assert = require('assert')
-// var check = require('../lib/source')
+var check = require('../lib/source')
 
 describe('simple project', function() {
 

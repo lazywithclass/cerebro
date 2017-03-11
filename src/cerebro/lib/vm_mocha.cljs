@@ -16,11 +16,21 @@
   pre-required event, mocha-context is then enriched with
   all required functions, like it before after describe etc"
   []
-  (let [mocha (Mocha. {:reporter "reporter"})
+  (let [mocha (Mocha.)
         mocha-context #js {:console js/console
                            :module js/module
                            :require node/require
+                           :Mocha Mocha
                            :mocha mocha}]
     (.emit (.-suite mocha) "pre-require" mocha-context nil mocha)
     (.createContext vm mocha-context)))
 
+(defn produce-mutated-reporter
+  "returns a reporter that does not report anything"
+  []
+  ";mocha.reporter(function(runner) {
+     Mocha.reporters.Base.call(this, runner);
+     runner.on('pass', function() {});
+     runner.on('fail', function() {});
+     runner.on('end', function() {});
+  });")
