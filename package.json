@@ -23,6 +23,8 @@
   "homepage": "https://github.com/lazywithclass/cerebro#readme",
   "dependencies": {
     "acorn": "^4.0.11",
+    "colors": "^1.1.2",
+    "diff": "^3.2.0",
     "escodegen": "^1.8.1",
     "esrecurse": "^4.1.0"
   }

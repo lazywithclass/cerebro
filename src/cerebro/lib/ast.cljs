@@ -21,7 +21,6 @@
 (defn ast-to-string
   "takes an ast and transforms it into a string"
   [ast]
-  (utils/stringify ast)
   (.generate escodegen ast))
 
 (defn surround-with-iife

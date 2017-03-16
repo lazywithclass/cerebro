@@ -5,16 +5,11 @@
 
 (def esrecurse (node/require "esrecurse"))
 
-;; TODO it's important that this does not mutate in place
-;;      so I could continue mutating in parallel
-
 (defn mutate
   "if we're dealing with <= then mutate to <"
   [node]
-  (aset node "operator" "<")
-  node)
+  (aset node "operator" "<"))
 
-;; TODO losing path here
 (defn loop-nodes
   "applies a mutation to the ASTs,
   returns the mutated, or non mutated, ASTs"

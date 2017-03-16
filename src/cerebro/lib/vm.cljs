@@ -10,9 +10,3 @@
   (let [Script (.-Script vm)
         script (Script. code)]
     (.runInContext script context)))
-
-(defn mutant-killed?
-  "returns true if the mutant was killed (tests red)
-  returns false if the mutant is still alive (tests green)"
-  [mocha-results]
-  (not (= (.-failures mocha-results) 0)))
