@@ -5,3 +5,4 @@ node_modules
 .lein-repl-history
 notes
 cerebro.js
+npm-debug.log
