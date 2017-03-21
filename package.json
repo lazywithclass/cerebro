@@ -4,6 +4,7 @@
   "description": "A mutation testing library for JavaScript",
   "main": "index.js",
   "scripts": {
+    "compile": "lein cljsbuild auto prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
