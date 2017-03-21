@@ -8,18 +8,18 @@
             [cerebro.lib.vm :as vm]
             [cerebro.lib.source-reader :as reader]
             [cerebro.lib.ast :as ast]
-            [cerebro.lib.base-reporter :as reporter]))
+            [cerebro.lib.base-reporter :as reporter]
+            [cerebro.lib.cli-arguments :as cli-arguments]))
 
 (node/enable-util-print!)
 
 
 (defn run
   "runs the example"
-  []
-  ;; TODO test path and source path should be passed as arguments
+  [sourcePath testPath]
   (let [test (first (ast/string-to-ast
-                     (reader/read "./test")))
-        source (first (ast/string-to-ast (reader/read "./lib")))
+                     (reader/read testPath)))
+        source (first (ast/string-to-ast (reader/read sourcePath)))
         mutated (less-than-equal-to-less-than/loop-nodes source)
         code (str
               (ast/ast-to-string mutated.code)
@@ -42,6 +42,8 @@
                         (vm-mocha/create-context)))))
 
 
-(prn (run))
+(let [arguments (cli-arguments/handle (cli-arguments/setup))]
+  (run (:source arguments) (:test arguments)))
+
 
 ;; (set! (.-exports js/module) "oh hai"))
