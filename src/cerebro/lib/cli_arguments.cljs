@@ -18,5 +18,4 @@
   (.parse program process.argv)
   (cond
     (or (nil? program.source) (nil? program.test)) (.help program)
-    true {:source program.source
-          :test program.test}))
+    true {:source program.source :test program.test}))
