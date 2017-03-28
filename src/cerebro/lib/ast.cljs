@@ -8,14 +8,15 @@
 (def acorn (node/require "acorn"))
 (def escodegen (node/require "escodegen"))
 
-(defrecord Candidate [path code])
 
 (defn string-to-ast
   "given a coll of candidates path - file as string, returns a coll
   of candidates path - AST"
   [candidates]
   (map (fn [candidate]
-         (Candidate. candidate.path (.parse acorn candidate.code)))
+         (hash-map
+          :path (candidate :path)
+          :code (.parse acorn (candidate :code))))
        candidates))
 
 (defn ast-to-string

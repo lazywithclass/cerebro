@@ -5,7 +5,6 @@
 
 (def fs (node/require "fs"))
 
-(defrecord Candidate [path code])
 
 (defn walk
   "walks recursively down a folder structure, returning file names"
@@ -22,5 +21,5 @@
   "reads in memory all file paths that are passed as params"
   [path]
   (map
-   #(Candidate. % (.readFileSync fs % "utf8"))
+   #(hash-map :path % :code (.readFileSync fs % "utf8"))
    (walk path)))

@@ -14,7 +14,7 @@
   "applies a mutation to the ASTs,
   returns the mutated, or non mutated, ASTs"
   [candidate]
-  (.visit esrecurse candidate.code #js {:BinaryExpression mutate})
+  (.visit esrecurse (candidate :code) #js {:BinaryExpression mutate})
   candidate)
 
 ;; (loop-nodes

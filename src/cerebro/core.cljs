@@ -21,8 +21,8 @@
         source (first (ast/string-to-ast (reader/read sourcePath)))
         mutated (less-than-equal-to-less-than/loop-nodes source)
         code (str
-              (ast/ast-to-string mutated.code)
-              (ast/surround-with-iife (ast/ast-to-string test.code))
+              (ast/ast-to-string (mutated :code))
+              (ast/surround-with-iife (ast/ast-to-string (test :code)))
               (vm-mocha/produce-muted-reporter)
               (vm-mocha/produce-mocha-run))]
 
@@ -30,11 +30,12 @@
     ;; which should be passing a clone to the mutation, not
     ;; actual thing
     (let [original (ast/ast-to-string
-                    (.-code (first (ast/string-to-ast (reader/read "./lib")))))
-          mutated (ast/ast-to-string mutated.code)
+                    ((first (ast/string-to-ast (reader/read "./lib"))) :code))
+          mutated (ast/ast-to-string (mutated :code))
           killed? (vm-mocha/mutant-killed?
                    (vm/run-in-context (ast/set-paths-relative-to-project-root code)
                                       (vm-mocha/create-context)))]
+
       (if (not killed?)
         (reporter/report original mutated)))))
 
