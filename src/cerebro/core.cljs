@@ -17,16 +17,14 @@
 (defn run
   "runs the example"
   [sourcePath testPath]
-  (let [test (first (ast/string-to-ast
-                     (reader/read testPath)))
+  (let [test (first (ast/string-to-ast (reader/read testPath)))
         source (first (ast/string-to-ast (reader/read sourcePath)))
         mutated (less-than-equal-to-less-than/loop-nodes source)
         code (str
               (ast/ast-to-string mutated.code)
               (ast/surround-with-iife (ast/ast-to-string test.code))
-              (vm-mocha/produce-mutated-reporter)
-              ;; TODO this should be somehow added in vm-mocha
-              "; mocha.run()")]
+              (vm-mocha/produce-muted-reporter)
+              (vm-mocha/produce-mocha-run))]
 
     ;; TODO find a better way to get the non mutated code
     ;; which should be passing a clone to the mutation, not
@@ -34,7 +32,6 @@
     (let [original (ast/ast-to-string
                      (.-code (first (ast/string-to-ast (reader/read "./lib")))))
           mutated (ast/ast-to-string mutated.code)]
-
       (reporter/report original mutated))
 
     (vm-mocha/mutant-killed?
@@ -44,6 +41,3 @@
 
 (let [arguments (cli-arguments/handle (cli-arguments/setup))]
   (run (:source arguments) (:test arguments)))
-
-
-;; (set! (.-exports js/module) "oh hai"))

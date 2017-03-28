@@ -31,7 +31,7 @@
   [mocha-results]
   (not (= (.-failures mocha-results) 0)))
 
-(defn produce-mutated-reporter
+(defn produce-muted-reporter
   "returns a reporter that does not report anything"
   []
   ";mocha.reporter(function(runner) {
@@ -40,3 +40,8 @@
      runner.on('fail', function() {});
      runner.on('end', function() {});
   });")
+
+(defn produce-mocha-run
+  "returns the instruction to run mocha"
+  []
+  ";mocha.run();")
