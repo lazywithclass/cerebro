@@ -30,13 +30,13 @@
     ;; which should be passing a clone to the mutation, not
     ;; actual thing
     (let [original (ast/ast-to-string
-                     (.-code (first (ast/string-to-ast (reader/read "./lib")))))
-          mutated (ast/ast-to-string mutated.code)]
-      (reporter/report original mutated))
-
-    (vm-mocha/mutant-killed?
-     (vm/run-in-context (ast/set-paths-relative-to-project-root code)
-                        (vm-mocha/create-context)))))
+                    (.-code (first (ast/string-to-ast (reader/read "./lib")))))
+          mutated (ast/ast-to-string mutated.code)
+          killed? (vm-mocha/mutant-killed?
+                   (vm/run-in-context (ast/set-paths-relative-to-project-root code)
+                                      (vm-mocha/create-context)))]
+      (if (not killed?)
+        (reporter/report original mutated)))))
 
 
 (let [arguments (cli-arguments/handle (cli-arguments/setup))]
