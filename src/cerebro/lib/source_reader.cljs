@@ -5,17 +5,15 @@
 
 (def fs (node/require "fs"))
 
-
 (defn walk
   "walks recursively down a folder structure, returning file names"
   [path]
-  (map
-   (fn [filename]
-     (let [filepath (str path "/" filename)]
-       (if (.isDirectory (.statSync fs filepath))
-         (walk filepath)
-         filepath)))
-   (.readdirSync fs path)))
+  (cond
+    (.isFile (.statSync fs path)) (cons path ())
+    (.isDirectory (.statSync fs path)) (mapcat
+                                        #(walk (str path "/" %))
+                                        (.readdirSync fs path))
+    true ()))
 
 (defn read
   "reads in memory all file paths that are passed as params"
