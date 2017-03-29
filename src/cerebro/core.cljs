@@ -19,25 +19,21 @@
   [sourcePath testPath]
   (let [test (first (ast/string-to-ast (reader/read testPath)))
         source (first (ast/string-to-ast (reader/read sourcePath)))
-        mutated (less-than-equal-to-less-than/loop-nodes source)
+        result (less-than-equal-to-less-than/loop-nodes source)
+        mutated (ast/ast-to-string ((result :mutated) :code))
+        original (ast/ast-to-string ((result :original) :code))
         code (str
-              (ast/ast-to-string (mutated :code))
+              mutated
               (ast/surround-with-iife (ast/ast-to-string (test :code)))
               (vm-mocha/produce-muted-reporter)
-              (vm-mocha/produce-mocha-run))]
+              (vm-mocha/produce-mocha-run))
+        killed? (vm-mocha/mutant-killed?
+                 (vm/run-in-context (ast/set-paths-relative-to-project-root code)
+                                    (vm-mocha/create-context)))]
+    (if (not killed?)
+      (prn original mutated)
+      (reporter/report original mutated))))
 
-    ;; TODO find a better way to get the non mutated code
-    ;; which should be passing a clone to the mutation, not
-    ;; actual thing
-    (let [original (ast/ast-to-string
-                    ((first (ast/string-to-ast (reader/read "./lib"))) :code))
-          mutated (ast/ast-to-string (mutated :code))
-          killed? (vm-mocha/mutant-killed?
-                   (vm/run-in-context (ast/set-paths-relative-to-project-root code)
-                                      (vm-mocha/create-context)))]
-
-      (if (not killed?)
-        (reporter/report original mutated)))))
 
 
 (let [arguments (cli-arguments/handle (cli-arguments/setup))]

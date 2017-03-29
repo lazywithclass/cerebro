@@ -5,8 +5,13 @@
 
 (def esrecurse (node/require "esrecurse"))
 
+(defn copy-obj
+  "creates a copy of a JS object"
+  [o]
+  (.parse js/JSON (.stringify js/JSON o)))
+
 (defn mutate
-  "if we're dealing with <= then mutate to <"
+  "mutate <= to <"
   [node]
   (aset node "operator" "<"))
 
@@ -14,8 +19,12 @@
   "applies a mutation to the ASTs,
   returns the mutated, or non mutated, ASTs"
   [candidate]
-  (.visit esrecurse (candidate :code) #js {:BinaryExpression mutate})
-  candidate)
+  (let [original-code (copy-obj (candidate :code))]
+    (.visit esrecurse (candidate :code) (clj->js {:BinaryExpression mutate}))
+    (hash-map :original
+              (hash-map :path (candidate :path) :code original-code)
+              :mutated
+              (hash-map :path (candidate :path) :code (candidate :code)))))
 
 ;; (loop-nodes
 ;;  (first (reader/to-ast
