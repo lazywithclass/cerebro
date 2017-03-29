@@ -13,7 +13,8 @@
 (defn mutate
   "mutate <= to <"
   [node]
-  (aset node "operator" "<"))
+  (if (= (aget node "operator") "<=")
+    (aset node "operator" "<")))
 
 (defn loop-nodes
   "applies a mutation to the ASTs,
