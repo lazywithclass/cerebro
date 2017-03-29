@@ -4,7 +4,6 @@
             [cerebro.lib.source-reader :as reader]
             [clojure.string :as str]))
 
-(def esrecurse (node/require "esrecurse"))
 (def acorn (node/require "acorn"))
 (def escodegen (node/require "escodegen"))
 
