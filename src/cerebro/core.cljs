@@ -27,13 +27,13 @@
               (ast/surround-with-iife (ast/ast-to-string (test :code)))
               (vm-mocha/produce-muted-reporter)
               (vm-mocha/produce-mocha-run))
-        killed? (vm-mocha/mutant-killed?
-                 (vm/run-in-context (ast/set-paths-relative-to-project-root code)
-                                    (vm-mocha/create-context)))]
-    (if (not killed?)
+        mocha-run-result (vm/run-in-context (ast/set-paths-relative-to-project-root code)
+                                            (vm-mocha/create-context))
+        mutant-alive? (vm-mocha/mutant-alive? mocha-run-result)]
+
+    ;; TODO this also has to check whether or not at least one mutation was applied
+    (if mutant-alive?
       (reporter/report original mutated))))
-
-
 
 (let [arguments (cli-arguments/handle (cli-arguments/setup))]
   (run (:source arguments) (:test arguments)))

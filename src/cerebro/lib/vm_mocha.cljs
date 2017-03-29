@@ -25,11 +25,11 @@
     (.emit (.-suite mocha) "pre-require" mocha-context nil mocha)
     (.createContext vm mocha-context)))
 
-(defn mutant-killed?
-  "returns true if the mutant was killed (tests red)
-  returns false if the mutant is still alive (tests green)"
+(defn mutant-alive?
+  "returns false if the mutant was killed, tests are red >0 failures
+  returns true if the mutant was not killed so it's still alive, tests are green 0 failures"
   [mocha-results]
-  (not (= (.-failures mocha-results) 0)))
+  (= (.-failures mocha-results) 0))
 
 (defn produce-muted-reporter
   "returns a reporter that does not report anything"
