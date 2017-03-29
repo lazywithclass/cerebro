@@ -31,7 +31,6 @@
                  (vm/run-in-context (ast/set-paths-relative-to-project-root code)
                                     (vm-mocha/create-context)))]
     (if (not killed?)
-      (prn original mutated)
       (reporter/report original mutated))))
 
 
