@@ -26,7 +26,3 @@
               (hash-map :path (candidate :path) :code original-code)
               :mutated
               (hash-map :path (candidate :path) :code (candidate :code)))))
-
-;; (loop-nodes
-;;  (first (reader/to-ast
-;;          (reader/read "./test/example-project/lib"))))
