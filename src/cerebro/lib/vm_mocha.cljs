@@ -1,9 +1,6 @@
 (ns cerebro.lib.vm-mocha
   (:require [cljs.nodejs :as node]
-            [cerebro.lib.utils :as utils]
-            [cerebro.mutations.true-to-false :as true-to-false]
-            [cerebro.mutations.less-than-equal-to-less-than
-             :as less-than-equal-to-less-than]))
+            [cerebro.lib.utils :as utils]))
 
 (def util (node/require "util"))
 (def vm (node/require "vm"))
