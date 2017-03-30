@@ -9,7 +9,7 @@
   "prints to console the affected code, highlighting the
   alive mutant position"
   [original mutated]
-  (doseq [part (.diffChars diff original mutated)]
+  (doseq [part (.diffWords diff original mutated)]
     (cond
       (true? part.added) (.write js/process.stderr (colors.green part.value))
       (true? part.removed) (.write js/process.stderr (colors.red part.value))
