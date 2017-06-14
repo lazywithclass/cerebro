@@ -23,7 +23,7 @@
   [sourcePath testPath]
   (let [test (first (ast/string-to-ast (reader/read testPath)))
         source (first (ast/string-to-ast (reader/read sourcePath)))
-        result (less-than-equal-to-less-than/loop-nodes source)
+        result (less-than-equal-to-less-than/mutate source)
         mutated (ast/ast-to-string ((result :mutated) :code))
         original (ast/ast-to-string ((result :original) :code))
         code (str

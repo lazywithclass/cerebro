@@ -1,28 +1,13 @@
 (ns cerebro.mutations.less-than-equal-to-less-than
-  (:require [cljs.nodejs :as node] ;; TODO qualify import
-            [cerebro.lib.source-reader :as reader]
-            [cerebro.lib.utils :as utils]))
+  (:require [cljs.nodejs :as node]
+            [cerebro.mutations.utils :as utils]))
 
-(def esrecurse (node/require "esrecurse"))
-
-(defn copy-obj
-  "creates a copy of a JS object"
-  [o]
-  (.parse js/JSON (.stringify js/JSON o)))
-
-(defn mutate
+(defn mutation
   "mutate <= to <"
   [node]
   (if (= (aget node "operator") "<=")
     (aset node "operator" "<")))
 
-(defn loop-nodes
-  "applies a mutation to the ASTs,
-  returns the mutated, or non mutated, ASTs"
+(defn mutate
   [candidate]
-  (let [original-code (copy-obj (candidate :code))]
-    (.visit esrecurse (candidate :code) (clj->js {:BinaryExpression mutate}))
-    (hash-map :original
-              (hash-map :path (candidate :path) :code original-code)
-              :mutated
-              (hash-map :path (candidate :path) :code (candidate :code)))))
+  (utils/mutate-nodes candidate {:BinaryExpression mutation}))
