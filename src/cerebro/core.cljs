@@ -1,8 +1,9 @@
 (ns cerebro.core
   (:require [cljs.nodejs :as node]
-            [cerebro.mutations.true-to-false :as true-to-false]
             [cerebro.mutations.less-than-equal-to-less-than :as
              less-than-equal-to-less-than]
+            [cerebro.mutations.double-equal-to-true :as
+             double-equal-to-true]
             [cerebro.lib.utils :as utils]
             [cerebro.lib.vm-mocha :as vm-mocha]
             [cerebro.lib.vm :as vm]
@@ -13,7 +14,10 @@
 
 (node/enable-util-print!)
 
+;; TODO run a mutation only on covered paths, so
+;; coverage and mutation traversing should go together
 
+;; TODO run all mutations
 (defn run
   "runs the example"
   [sourcePath testPath]
@@ -33,7 +37,9 @@
 
     ;; TODO this also has to check whether or not at least one mutation was applied
     (if mutant-alive?
-      (reporter/report original mutated))))
+      (reporter/report original mutated))
+    ))
 
 (let [arguments (cli-arguments/handle (cli-arguments/setup))]
   (run (:source arguments) (:test arguments)))
+
