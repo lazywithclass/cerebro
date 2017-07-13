@@ -14,6 +14,8 @@
 
 (node/enable-util-print!)
 
+;; https://github.com/istanbuljs/istanbuljs/blob/master/packages/istanbul-lib-instrument/api.md
+
 ;; TODO run a mutation only on covered paths, so
 ;; coverage and mutation traversing should go together
 
@@ -23,7 +25,8 @@
   [sourcePath testPath]
   (let [test (first (ast/string-to-ast (reader/read testPath)))
         source (first (ast/string-to-ast (reader/read sourcePath)))
-        result (less-than-equal-to-less-than/mutate source)
+        ;; result (less-than-equal-to-less-than/mutate source)
+        result (double-equal-to-true/mutate source)
         mutated (ast/ast-to-string ((result :mutated) :code))
         original (ast/ast-to-string ((result :original) :code))
         code (str
